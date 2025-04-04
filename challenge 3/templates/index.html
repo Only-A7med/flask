@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project IRIS™ - Neural Pattern Analysis Challenge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Background shapes -->
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">
+                <div class="logo-shape">
+                    <div class="circle"></div>
+                    <div class="square"></div>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">Neural Interface</a>
+                <a href="#mission">Directive</a>
+                <a href="#analysis">Analysis</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <main class="hero">
+            <div class="hero-content">
+                <h1 class="gradient-text">IRIS™ Neural Interface</h1>
+                <div class="mission-text">
+                    <p>[IRIS CORE DIRECTIVE]: Neural pattern analysis module activated. Awaiting mathematical transformation sequence.</p>
+                    <p>[SECURITY NOTICE]: Unauthorized pattern manipulation detected. Countermeasure protocols engaged.</p>
+                    <p>[MISSION PARAMETERS]: Derive the exact mathematical transformation formula. Format required: y = f(x)</p>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="device-mockup">
+                    <div class="screen">
+                        <div class="screen-content">
+                            <div class="terminal-header">IRIS™ Pattern Analysis v2.1</div>
+                            <div class="input-area">
+                                <input type="number" id="test-input" placeholder="Enter test value (x)" autocomplete="off">
+                                <button id="test-formula" class="btn-primary">Analyze Pattern</button>
+                            </div>
+                            <div class="output-area">
+                                <div class="key-display">
+                                    <span>Input Sequence (x):</span>
+                                    <span id="input-value">---</span>
+                                </div>
+                                <div class="prediction-display">
+                                    <span>Output Pattern (y):</span>
+                                    <span id="test-output">---</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="device-frame"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Rules Section -->
+        <section id="mission" class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="icon-animation">
+                        <div class="circle-orbit">
+                            <div class="small-circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Pattern Analysis Protocol</h3>
+                <p>[IRIS INSTRUCTION]: Input numerical sequences will be transformed through a deterministic neural matrix. Analyze output patterns to reverse-engineer the transformation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="icon-animation">
+                        <div class="chain-link"></div>
+                        <div class="chain-link"></div>
+                    </div>
+                </div>
+                <h3>Neural Bypass Protocol</h3>
+                <p>[IRIS WARNING]: Detection of correct transformation formula will trigger system override. Exercise caution in formula submission.</p>
+            </div>
+        </section>
+
+        <!-- Submission Section -->
+        <section id="analysis" class="submission">
+            <h2>Neural Pattern Submission</h2>
+            <div class="submission-form">
+                <div class="formula-area">
+                    <input type="text" id="input-x" placeholder="Enter transformation formula (y = x+7/1000)" class="formula-input" autocomplete="off">
+                    <button id="generate-key" class="btn-primary">Submit Formula</button>
+                </div>
+                <div class="flag-display" id="flag-container"></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <div class="cyber-popup" id="cyberPopup">
+        <div class="popup-header">
+            <h3 class="popup-title" id="popupTitle">IRIS™ Alert</h3>
+        </div>
+        <div class="popup-content" id="popupContent">
+        </div>
+        <div class="popup-buttons">
+            <button class="popup-button cancel" id="popupCancel">Cancel Operation</button>
+            <button class="popup-button confirm" id="popupConfirm">Confirm</button>
+        </div>
+    </div>
+
+    <script>
+    function showCyberPopup(title, content, confirmText = 'Confirm', cancelText = 'Cancel Operation', onConfirm = null) {
+        const popup = document.getElementById('cyberPopup');
+        const overlay = document.getElementById('popupOverlay');
+        const titleEl = document.getElementById('popupTitle');
+        const contentEl = document.getElementById('popupContent');
+        const confirmBtn = document.getElementById('popupConfirm');
+        const cancelBtn = document.getElementById('popupCancel');
+
+        titleEl.textContent = title;
+        contentEl.innerHTML = content;
+        confirmBtn.textContent = confirmText;
+        cancelBtn.textContent = cancelText;
+
+        titleEl.classList.add('glitch');
+        setTimeout(() => titleEl.classList.remove('glitch'), 1000);
+
+        popup.classList.add('show');
+        overlay.classList.add('show');
+
+        return new Promise((resolve) => {
+            confirmBtn.onclick = () => {
+                if (onConfirm) onConfirm();
+                popup.classList.remove('show');
+                overlay.classList.remove('show');
+                resolve(true);
+            };
+
+            cancelBtn.onclick = () => {
+                popup.classList.remove('show');
+                overlay.classList.remove('show');
+                resolve(false);
+            };
+
+            overlay.onclick = () => {
+                popup.classList.remove('show');
+                overlay.classList.remove('show');
+                resolve(false);
+            };
+        });
+    }
+
+    document.getElementById('generate-key').addEventListener('click', async () => {
+        const formula = document.getElementById('input-x').value;
+        const flagContainer = document.getElementById('flag-container');
+
+        if (!formula.trim()) {
+            showCyberPopup(
+                'IRIS™ Error: Invalid Input',
+                '<span style="color: #ff0033">[ERROR]: Formula sequence cannot be empty.</span>',
+                'Acknowledge',
+                'Cancel Operation'
+            );
+            return;
+        }
+
+        try {
+            showCyberPopup(
+                'IRIS™ Processing',
+                `<p>[STATUS]: Analyzing transformation formula...</p>
+                 <p style="color: #00f2fe">[SYSTEM]: Neural pattern verification in progress...</p>`,
+                'Processing...'
+            );
+
+            const keyResponse = await fetch('/api/generate_key', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ input: formula })
+            });
+            const keyData = await keyResponse.json();
+
+            if (keyData.error) {
+                throw new Error(keyData.error);
+            }
+
+            const predictionResponse = await fetch('/api/check_prediction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ key: keyData.key })
+            });
+            const predictionData = await predictionResponse.json();
+
+            if (predictionData.error) {
+                throw new Error(predictionData.error);
+            }
+
+            document.getElementById('cyberPopup').classList.remove('show');
+            document.getElementById('popupOverlay').classList.remove('show');
+
+            if (predictionData.is_correct) {
+                flagContainer.innerHTML = `<div class="flag success">${predictionData.flag}</div>`;
+                showCyberPopup(
+                    'IRIS™ Override Successful',
+                    `<p style="color: #00f2fe">[ALERT]: Neural pattern bypass achieved.</p>
+                     <p>[SYSTEM]: Security override token generated.</p>
+                     <p>Flag: ${predictionData.flag}</p>`,
+                    'Complete Operation'
+                );
+            } else {
+                flagContainer.innerHTML = '<div class="flag error">[ERROR]: Invalid transformation pattern detected.</div>';
+            }
+
+        } catch (error) {
+            flagContainer.innerHTML = `<div class="flag error">[ERROR]: ${error.message}</div>`;
+            
+            showCyberPopup(
+                'IRIS™ System Error',
+                `<span style="color: #ff0033">[CRITICAL ERROR]: Formula validation failed: ${error.message}</span>`,
+                'Acknowledge'
+            );
+        }
+    });
+
+    document.getElementById('test-formula').addEventListener('click', async () => {
+        const input = document.getElementById('test-input').value;
+        const outputDisplay = document.getElementById('test-output');
+        const inputDisplay = document.getElementById('input-value');
+
+        if (!input.trim()) {
+            showCyberPopup(
+                'IRIS™ Error: Invalid Input',
+                '<span style="color: #ff0033">[ERROR]: Test value required for pattern analysis.</span>',
+                'Acknowledge'
+            );
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/test_formula', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ x: parseInt(input) })
+            });
+            const data = await response.json();
+
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
+            inputDisplay.textContent = input;
+            outputDisplay.textContent = data.y;
+
+        } catch (error) {
+            inputDisplay.textContent = '[ERROR]';
+            outputDisplay.textContent = '[ERROR]';
+            showCyberPopup(
+                'IRIS™ Analysis Error',
+                `<span style="color: #ff0033">[ERROR]: Pattern computation failed: ${error.message}</span>`,
+                'Acknowledge'
+            );
+        }
+    });
+    </script>
+</body>
+</html> 
